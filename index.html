@@ -5,19 +5,51 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calcular Média</title>
-    <script src="scripts.js"></script>
 </head>
-<body>
-    <div>
+ <body>
+    <div style="text-align: center;"> <!-- css inline -->
         <h1>Calculadora de Média de Idades de uma Família</h1>
         <div id="total">
-            <input type="text" id="totalNotas" placeholder="Informe o total de integrantes"/>
+            <p>Informe o número total de integrantes da sua família contando com você, em seguida clique no botão "Ok":</p>
+            <input type="text" id="totalidades" placeholder="Informe o total de integrantes"/> <!-- id da quantidade de idades a ser calculado -->
             <button type="button" onclick="CalcularMedia.exibirEntradas();">Ok</button>
         </div>
         <div id="calculo" style="display: none;">
             <div id="entradas"></div>
             <button type="button" onclick="CalcularMedia.calcularMedia()">Calcular</button>
+            <div id="resultado"></div>
         </div>
     </div>    
+
+    <!-- código em Javascript -->
+
+    <script type="text/javascript">
+    var CalcularMedia = new function() {
+    this.totalidades = 0;
+
+    this.exibirEntradas = function() { //this vincula à variável totalidades
+        this.totalidades = parseInt(document.getElementById("totalidades").value); //puxando o total de entradas pela ID / parseInt converte de texto pra número inteiro
+        var calculoDiv = document.getElementById("calculo"); 
+        calculoDiv.style.display = "block"; //faz a div aparecer, de display "none" para "block"
+
+        var elementoHtml = ''; 
+        for (var i = 0; i < this.totalidades; i++) { //LAÇO de repetição.
+            elementoHtml += '<p>Agora informe a idade do familiar:</p><input type="text" id="idade_' + i + '" value=""><br>';
+        }
+        var entradasDiv = document.getElementById("entradas"); //faz com que as caixas de entrada de idades apareçam de acordo com o laço de repetição
+        entradasDiv.innerHTML = elementoHtml;
+    };
+
+    this.calcularMedia = function() {
+        var total = 0; //soma as idades
+        for (var i = 0; i < this.totalidades; i++) {
+            total += parseInt(document.getElementById("idade_" + i).value); //parseInt converte texto para número inteiro
+        }
+        var media = total / this.totalidades; //cálculo da média
+        var resultadoDiv = document.getElementById("resultado"); //faz o resultado aparecer na div "resultadoDiv"
+        resultadoDiv.innerHTML = "<h1>" + "Média das idades = " +media + "</h1>" + "<h2>" + "Obrigado pela visita :)" + "</h2>" + "<h4>" + "Autor: Vinicius Rangel." + "</h4>";
+    };
+};
+    </script>
 </body>
 </html>
